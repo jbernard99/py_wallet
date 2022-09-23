@@ -9,8 +9,8 @@ class Ledger():
 
 	def __str__(self):
 		str = ("\n_________________________________________________\n"
-		f"Ledger : {self.name}\n"
-		"________________________\n")
+		f"			  Ledger : {self.name}\n"
+		"			________________________\n")
 
 		for transaction in self.transactions:
 			str = str + str(transaction)

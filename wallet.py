@@ -1,12 +1,16 @@
-import account
+from wallet_db import Database
+from account import Account
 
-class Wallet():
+class Wallet:
 
 	def __init__(self):
 		self.accounts = []
+		self.db = Database()
 
-	def add_accounts(self, name, value, init_value):
-		self.accounts.append(account.Account(name, value, init_value))
+	def create_account(self, name, value, init_value):
+		acc = Account(name, value, init_value)
+		self.accounts.append(acc)
+		self.db.create_account(acc)
 
 	def load_all_transactions(self):
 		pass
