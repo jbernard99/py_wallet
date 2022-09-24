@@ -1,5 +1,5 @@
 from wallet import Wallet
-from menu import Menu
+from py_menu.menu import Menu
 
 menu = Menu()
 wlt = Wallet()
