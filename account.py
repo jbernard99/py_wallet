@@ -1,4 +1,4 @@
-import ledger
+from ledger import Ledger
 
 class Account():
 
@@ -6,7 +6,7 @@ class Account():
 		self.name = name
 		self.value = value
 		self.initial_value = initial_value
-		self.ledger = ledger.Ledger(name)
+		self.ledger = Ledger(name)
 
 	def add_value(self, value):
 		self.value = self.value + value

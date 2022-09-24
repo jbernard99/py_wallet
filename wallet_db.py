@@ -27,7 +27,7 @@ class Database():
 			)""")
 		
 	def get_ledger(self, name):
-		if (utls.is_account_in_db(self.ger_accounts(), name)):
+		if (utls.is_account_in_db(self.get_accounts(), name)):
 			return (self.cursor.execute(f"SELECT * FROM {name}").fetchall())
 
 	def create_ledger_table(self, name):
