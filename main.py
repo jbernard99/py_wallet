@@ -17,10 +17,19 @@ main_menu = [
 			]
 
 def add_deposit_transaction():
-	pass
+	acc = menu.print_menu("What account?", "int", choice_list=wlt.get_accounts())
+	date = menu.print_menu("When?", "str")
+	value = menu.print_menu("Value?", "float")
+	desc = menu.print_menu("Description?", "str")
+	wlt.add_transaction(wlt.get_accounts()[acc - 1], date, value, 1, desc)
+
 
 def add_withdraw_transaction():
-	pass
+	acc = menu.print_menu("What account?", "int", choice_list=wlt.get_accounts())
+	date = menu.print_menu("When?", "str")
+	value = menu.print_menu("Value?", "float")
+	desc = menu.print_menu("Description?", "str")
+	wlt.add_transaction(wlt.get_accounts()[acc - 1], date, value, 0, desc)
 
 def check_account_balance(name):
 	pass
@@ -42,5 +51,15 @@ def quit_wallet():
 
 while True:
 	choice = menu.print_menu("What do you want to do?", "int", choice_list=main_menu)
-	if (choice == 5):
+	if (choice == 1):
+		add_deposit_transaction()
+	elif (choice == 2):
+		add_withdraw_transaction()
+	elif (choice == 3):
+		pass
+	elif (choice == 4):
+		pass
+	elif (choice == 5):
 		create_account()
+	elif (choice == 6):
+		quit()

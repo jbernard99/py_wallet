@@ -14,17 +14,20 @@ class Database():
 			CREATE TABLE IF NOT EXISTS accounts(
 			id integer PRIMARY KEY,
 			name text NOT NULL,
-			value real,
 			initial_value real
 			)""")
 
 	def add_transaction(self, ledger, transaction):
-		self.cursor.execute(f"""
-			INSERT INTO {ledger}(date, value, description) VALUES(
+		print(transaction)
+		cmd = f"""
+			INSERT INTO {ledger.name}(date, value, description, is_depot) VALUES(
 			'{transaction.date}',
 			'{transaction.value}',
-			'{transaction.description}'
-			)""")
+			'{transaction.description}',
+			'{transaction.is_depot}'
+			)"""
+		self.cursor.execute(cmd)
+		self.connection.commit()
 		
 	def get_ledger(self, name):
 		if (utls.is_account_in_db(self.get_accounts(), name)):
@@ -36,7 +39,8 @@ class Database():
 				id integer NOT NULL PRIMARY KEY, 
 				date text NOT NULL,
 				value real NOT NULL,
-				description text
+				description text,
+				is_depot integer
 				)""")
 
 	def get_accounts(self):
@@ -45,7 +49,7 @@ class Database():
 	def create_account(self, account):
 		if not (utls.account_is_double(self.get_accounts(), account.name)):
 			self.cursor.execute(f"""
-				INSERT INTO accounts(name, value, initial_value) VALUES(
+				INSERT INTO accounts(name, initial_value) VALUES(
 				'{account.name}',
 				'{account.value}',
 				'{account.initial_value}'

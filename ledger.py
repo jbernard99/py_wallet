@@ -1,5 +1,4 @@
 import datetime
-import tracemalloc
 from transaction import Transaction
 
 class Ledger():
@@ -9,21 +8,16 @@ class Ledger():
 		self.transactions = []
 
 	def __str__(self):
-		str = (f"			  Ledger : {self.name}\n"
+		tstr = (f"			  Ledger : {self.name}\n"
 				"			________________________\n")
 
 		for transaction in self.transactions:
-			str = str + str(transaction) + "\n"
+			tstr = tstr + str(transaction) + "\n"
 
-		str = str + "	_________________________________________________\n\n"
-		return (str)
+		tstr = tstr + "	_________________________________________________\n\n"
+		return (tstr)
 
-	def add_transaction(self, date, value, desc):
-		if value < 0:
-			is_neg = True
-			value = value * -1
-		else:
-			is_neg = False
-		self.transactions.append(Transaction(date, value, is_neg, desc))
+	def add_transaction(self, transaction):
+		self.transactions.append(transaction)
 
 		

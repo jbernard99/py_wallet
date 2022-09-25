@@ -1,6 +1,6 @@
+from transaction import Transaction
 from wallet_db import Database
-from account import Account
-import wallet_utils as utls
+import account
 
 class Wallet:
 
@@ -8,6 +8,7 @@ class Wallet:
 		self.accounts = []
 		self.db = Database()
 		self.load_data()
+		self.update_accounts()
 
 	def load_data(self):
 		for acc in self.accounts:
@@ -17,26 +18,39 @@ class Wallet:
 
 	def load_accounts(self):
 		for acc in self.db.get_accounts():
-			self.accounts.append(Account(acc[1], acc[2], acc[3]))
+			self.accounts.append(account.Account(acc[1], acc[2]))
 
 	def load_ledgers(self):
 		for acc in self.accounts:
 			ledger = self.db.get_ledger(acc.name)
 			for t in ledger:
-				acc.ledger.add_transaction(t[1], t[2], t[3])
+				py_t = Transaction(t[1], t[2], t[3], t[4])
+				acc.ledger.add_transaction(py_t)
 
-	def add_transaction(self, acc_name, date, value, desc):
+	def add_transaction(self, acc, date, value, is_depot, desc):
+		t = Transaction(date, value, desc, is_depot)
+		acc.ledger.add_transaction(t)
+		self.db.add_transaction(acc.ledger, t)
+		if is_depot:
+			acc.add_value(value)
+		else:
+			acc.remove_value(value)
+
+	def update_accounts(self):
 		for acc in self.accounts:
-			if (acc.name == acc_name):
-				acc.ledger.add_transaction(date, value, desc)
+			self.update_account(acc)
 
-	def create_account(self, name, value, init_value):
-		acc = Account(name, value, init_value)
+	def update_account(self, acc):
+		for t in acc.ledger.transactions:
+			if t.is_depot:
+				acc.add_value(t.value)
+			else:
+				acc.remove_value(t.value)
+
+	def get_accounts(self):
+		return (self.accounts)
+
+	def create_account(self, name, init_value):
+		acc = account.Account(name, init_value)
 		self.accounts.append(acc)
 		self.db.create_account(acc)
-
-	def load_all_transactions(self):
-		pass
-
-	def load_ledger_transactions(self):
-		pass

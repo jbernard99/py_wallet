@@ -2,11 +2,11 @@ import datetime
 
 class Transaction():
 
-	def __init__(self, date, value, is_neg, description):
+	def __init__(self, date, value, description, is_in):
 		self.date = date
-		self.sign = -1 if is_neg == True else 1
-		self.value = value * self.sign
+		self.value = value
 		self.description = description
+		self.is_depot = is_in
 
 	def __str__(self):
 		return (f"{self.date} | {self.value} | {self.description}\n")
