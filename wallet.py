@@ -38,14 +38,7 @@ class Wallet:
 
 	def update_accounts(self):
 		for acc in self.accounts:
-			self.update_account(acc)
-
-	def update_account(self, acc):
-		for t in acc.ledger.transactions:
-			if t.is_depot:
-				acc.add_value(t.value)
-			else:
-				acc.remove_value(t.value)
+			acc.update_account()
 
 	def get_accounts(self):
 		return (self.accounts)
@@ -54,3 +47,10 @@ class Wallet:
 		acc = account.Account(name, init_value)
 		self.accounts.append(acc)
 		self.db.create_account(acc)
+
+	def get_wallet_balance(self):
+		self.update_accounts()
+		total_value = 0
+		for acc in self.accounts:
+			total_value = total_value + acc.value
+		return (total_value)

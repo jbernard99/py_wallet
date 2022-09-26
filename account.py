@@ -16,3 +16,10 @@ class Account():
 
 	def remove_value(self, value):
 		self.value = self.value - value
+
+	def update_account(self):
+		for t in self.ledger.transactions:
+			if t.is_depot:
+				self.add_value(t.value)
+			else:
+				self.remove_value(t.value)

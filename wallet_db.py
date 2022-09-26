@@ -51,7 +51,6 @@ class Database():
 			self.cursor.execute(f"""
 				INSERT INTO accounts(name, initial_value) VALUES(
 				'{account.name}',
-				'{account.value}',
 				'{account.initial_value}'
 				)""")
 			self.create_ledger_table(account.name)
