@@ -21,18 +21,20 @@ def get_acc():
 	acc = menu.print_menu("What account?", "int", choice_list=wlt.get_accounts())
 	return (wlt.get_accounts()[acc - 1])
 
+def get_t():
+	date = menu.print_menu("When was this transaction done?\n(Date format : DDMMYYY)\n", "str")
+	desc = menu.print_menu("Describe this transaction : \n", "str")
+	value = menu.print_menu("How much was this transaction?\n	", "float")
+	return (date, value, desc)
+
 def add_deposit_transaction():
 	acc = get_acc()
-	date = menu.print_menu("When?", "str")
-	value = menu.print_menu("Value?", "float")
-	desc = menu.print_menu("Description?", "str")	
+	date, value, desc = get_t()
 	wlt.add_transaction(wlt.get_accounts()[acc - 1], date, value, 1, desc)
 
 def add_withdraw_transaction():
 	acc = get_acc()
-	date = menu.print_menu("When?", "str")
-	value = menu.print_menu("Value?", "float")
-	desc = menu.print_menu("Description?", "str")
+	date, value, desc = get_t()
 	wlt.add_transaction(wlt.get_accounts()[acc - 1], date, value, 0, desc)
 
 def check_account_balance():
@@ -44,12 +46,7 @@ def check_account_transactions():
 	acc = get_acc()
 	txt = f"Transactions of {acc.name} : \n\n"
 	for t in acc.ledger.transactions:
-		txt = txt + f"	{t.date} | {t.description} | "
-		if not (t.is_depot):
-			txt = txt + "-"
-		else:
-			txt = txt + "+"
-		txt = txt + f"{str(t.value)}\n\n"
+		txt = txt + "	->  " + str(t) + "\n"
 	menu.print_transition(txt)
 
 def check_wallet_balance():
